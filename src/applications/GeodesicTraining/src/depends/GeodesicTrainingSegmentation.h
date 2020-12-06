@@ -4,7 +4,7 @@
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkInvertIntensityImageFilter.h"

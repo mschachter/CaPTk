@@ -4,7 +4,7 @@
 
 SET( ITK_DEPENDENCIES )
 
-SET( ITK_DEPENDS VTK OpenCV DCMTK )
+SET( ITK_DEPENDS VTK OpenCV DCMTK Eigen)
 
 IF( MSVC )
   #SET( EXTRA_WINDOWS_OPTIONS -DModule_SCIFIO:BOOL=ON )
@@ -20,14 +20,13 @@ IF(NOT WIN32)
 SET( EXTRA_NON_WINDOWS_OPTIONS -DCMAKE_BUILD_TYPE=Release)
 ENDIF()
 
-MESSAGE( STATUS "Adding ITK-4.13.1 ...")
+MESSAGE( STATUS "Adding ITK-5.1.2 ...")
 
 ExternalProject_Add( 
   ITK
   DEPENDS ${ITK_DEPENDS}
-  # URL https://github.com/InsightSoftwareConsortium/ITK/archive/v4.13.1.zip
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITK.git #  url from where to download
-  GIT_TAG v4.13.1
+  GIT_TAG v5.1.2
   SOURCE_DIR ITK-source
   BINARY_DIR ITK-build
   UPDATE_COMMAND ""
@@ -58,6 +57,7 @@ ExternalProject_Add(
     -DVCL_INCLUDE_CXX_0X:BOOL=ON
     -DDCMTK_USE_ICU:BOOL=OFF
     -DITK_USE_SYSTEM_DCMTK:BOOL=ON
+    -DITK_USE_SYSTEM_EIGEN:BOOL=ON
     -DDCMTK_DIR:PATH=${DCMTK_DIR}
     -DCMAKE_DEBUG_POSTFIX:STRING=d
     ${EXTRA_WINDOWS_OPTIONS}

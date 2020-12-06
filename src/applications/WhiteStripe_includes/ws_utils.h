@@ -189,7 +189,7 @@ namespace Utils
 		catch (...)
 		{
 			cout<<"Exception in reading Nifti:" + fileName;
-      return NULL;
+      image = NULL;
 		}
 		return image;
 	}

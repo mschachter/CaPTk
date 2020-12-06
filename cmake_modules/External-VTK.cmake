@@ -10,13 +10,12 @@ IF(NOT WIN32)
 SET( EXTRA_NON_WINDOWS_OPTIONS -DCMAKE_BUILD_TYPE=Release)
 ENDIF()
 
-MESSAGE( STATUS "Adding VTK-8.1.0 ...")
+MESSAGE( STATUS "Adding VTK-9.0.1 ...")
 
 ExternalProject_Add( 
   VTK
-  # URL https://github.com/Kitware/VTK/archive/v8.1.0.zip
   GIT_REPOSITORY https://github.com/Kitware/VTK.git #  url from where to download
-  GIT_TAG v8.1.0
+  GIT_TAG v9.0.1
   SOURCE_DIR VTK-source
   BINARY_DIR VTK-build
   UPDATE_COMMAND ""
@@ -36,10 +35,13 @@ ExternalProject_Add(
     -DVTK_LEGACY_SILENT:BOOL=ON # disables the QVTKWidget warning
     -DCMAKE_CXX_MP_FLAG=ON 
     -DVTK_Group_Imaging=ON 
-    -DModule_vtkGUISupportQt:BOOL=ON 
-    -DModule_vtkGUISupportQtOpenGL:BOOL=ON 
-    -DModule_vtkRenderingQt:BOOL=ON 
-    -DModule_vtkViewsQt:BOOL=ON
+    #-DModule_vtkGUISupportQt:BOOL=ON 
+    #-DModule_vtkGUISupportQtOpenGL:BOOL=ON 
+    #-DModule_vtkRenderingQt:BOOL=ON 
+    #-DModule_vtkViewsQt:BOOL=ON
+    -DVTK_MODULE_ENABLE_VTK_ViewsQt:STRING=YES
+    -DVTK_MODULE_ENABLE_VTK_RenderingQt:STRING=YES
+    -DVTK_MODULE_ENABLE_VTK_GUISupportQt:STRING=YES
     -DVTK_USE_QTCHARTS:BOOL=ON
     -DVTK_USE_QVTK_QTOPENGL:BOOL=ON    
     -DCMAKE_DEBUG_POSTFIX:STRING=d

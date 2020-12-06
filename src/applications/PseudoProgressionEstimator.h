@@ -564,7 +564,8 @@ VectorDouble PseudoProgressionEstimator::GetRunLengthFeatures(typename ImageType
   using RunLengthFilterType = itk::Statistics::ScalarImageToRunLengthFeaturesFilter< ImageType, HistogramFrequencyContainerType >;
   using RunLengthMatrixGenerator = typename RunLengthFilterType::RunLengthMatrixFilterType;
   using RunLengthFeatures = typename RunLengthFilterType::RunLengthFeaturesFilterType;
-  using InternalRunLengthFeatureName = typename RunLengthFeatures::RunLengthFeatureName;
+  //using InternalRunLengthFeatureName = typename RunLengthFeatures::RunLengthFeatureName;
+  using InternalRunLengthFeatureName = typename RunLengthFilterType::RunLengthFeatureName;
 
   typename  RunLengthMatrixGenerator::Pointer matrix_generator = RunLengthMatrixGenerator::New();
   matrix_generator->SetMaskImage(mask);
@@ -578,16 +579,17 @@ VectorDouble PseudoProgressionEstimator::GetRunLengthFeatures(typename ImageType
   typename  RunLengthFeatures::Pointer runLengthMatrixCalculator = RunLengthFeatures::New();
 
   typename  RunLengthFilterType::FeatureNameVectorPointer requestedFeatures = RunLengthFilterType::FeatureNameVector::New();
-  requestedFeatures->push_back(RunLengthFeatures::ShortRunEmphasis);
-  requestedFeatures->push_back(RunLengthFeatures::LongRunEmphasis);
-  requestedFeatures->push_back(RunLengthFeatures::GreyLevelNonuniformity);
-  requestedFeatures->push_back(RunLengthFeatures::RunLengthNonuniformity);
-  requestedFeatures->push_back(RunLengthFeatures::LowGreyLevelRunEmphasis);
-  requestedFeatures->push_back(RunLengthFeatures::HighGreyLevelRunEmphasis);
-  requestedFeatures->push_back(RunLengthFeatures::ShortRunLowGreyLevelEmphasis);
-  requestedFeatures->push_back(RunLengthFeatures::ShortRunHighGreyLevelEmphasis);
-  requestedFeatures->push_back(RunLengthFeatures::LongRunLowGreyLevelEmphasis);
-  requestedFeatures->push_back(RunLengthFeatures::LongRunHighGreyLevelEmphasis);
+  
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::ShortRunEmphasis);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::LongRunEmphasis);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::GreyLevelNonuniformity);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::RunLengthNonuniformity);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::LowGreyLevelRunEmphasis);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::HighGreyLevelRunEmphasis);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::ShortRunLowGreyLevelEmphasis);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::ShortRunHighGreyLevelEmphasis);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::LongRunLowGreyLevelEmphasis);
+  requestedFeatures->push_back((InternalRunLengthFeatureName)RunLengthFeatures::LongRunHighGreyLevelEmphasis);
 
   std::vector<double> features;
   typename  OffsetVector::ConstIterator offsetIt;
@@ -607,7 +609,9 @@ VectorDouble PseudoProgressionEstimator::GetRunLengthFeatures(typename ImageType
     featureNum = 0;
     for (fnameIt = requestedFeatures->Begin(); fnameIt != requestedFeatures->End(); ++fnameIt, featureNum++)
     {
-      tempfeatures[featureNum] = tempfeatures[featureNum] + runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value());
+      //TOCHECK - the level of obfuscation and casting required here is significant... hopefully can be simplified?
+      InternalRunLengthFeatureName v = (InternalRunLengthFeatureName)fnameIt.Value();
+      tempfeatures[featureNum] = tempfeatures[featureNum] + runLengthMatrixCalculator->GetFeature((itk::Statistics::HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature) v);
     }
   }
   for (size_t i = 0; i < tempfeatures.size(); i++)

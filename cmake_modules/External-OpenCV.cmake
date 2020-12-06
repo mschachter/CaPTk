@@ -19,7 +19,7 @@ ExternalProject_Add(
   GIT_REPOSITORY https://github.com/opencv/opencv.git #  url from where to download
   GIT_TAG ${OPENCV_VERSION}
   #GIT_REPOSITORY ${git_protocol}://github.com/opencv/opencv.git
-  #GIT_TAG 3.4.1
+  #GIT_TAG 4.5.0
   SOURCE_DIR OpenCV-source
   BINARY_DIR OpenCV-build
   UPDATE_COMMAND ""

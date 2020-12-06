@@ -86,7 +86,7 @@ ImageType::Pointer WhiteStripe::process(ImageType::Pointer img, ImageType::Point
   catch (...)
   {
     cout << "Exception in process" << endl;
-    return NULL;
+    normalizedImg = NULL;
   }
   return normalizedImg;
 }

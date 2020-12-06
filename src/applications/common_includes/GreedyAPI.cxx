@@ -1654,7 +1654,7 @@ int GreedyApproach<VDim, TReal>
   ReadImages(param, of_helper);
 
   // An image pointer desribing the current estimate of the deformation
-  VectorImagePointer uLevel = NULL;
+  VectorImagePointer uLevel;
 
   // The number of resolution levels
   unsigned nlevels = param.iter_per_level.size();
